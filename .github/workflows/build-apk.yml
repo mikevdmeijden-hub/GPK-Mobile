@@ -34,7 +34,6 @@ jobs:
 
       - name: Android-projectbestanden genereren
         run: flutter create . --platforms=android --project-name gpk_app --org nl.gpk
-        run: flutter create . --platforms=android --project-name gpk_app --org nl.gpk
 
       - name: Manifest aanpassen (internet + app-naam)
         run: python3 patch_manifest.py
