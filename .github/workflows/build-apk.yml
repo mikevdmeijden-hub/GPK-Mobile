@@ -24,7 +24,7 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: - name: Oude Android-bestanden verwijderen
+      - name: Oude Android-bestanden verwijderen
         run: |
           rm -f android/build.gradle android/settings.gradle android/gradle.properties
           rm -f android/app/build.gradle
