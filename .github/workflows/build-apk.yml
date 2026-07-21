@@ -1,0 +1,41 @@
+name: APK bouwen
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+
+      - name: Java instellen
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Flutter instellen
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Ontbrekende projectbestanden aanvullen
+        run: flutter create . --platforms=android --project-name gpk_app --org nl.gpk
+
+      - name: Pakketten ophalen
+        run: flutter pub get
+
+      - name: APK bouwen (release)
+        run: flutter build apk --release
+
+      - name: APK als download beschikbaar maken
+        uses: actions/upload-artifact@v4
+        with:
+          name: GPK-Parkeren-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
