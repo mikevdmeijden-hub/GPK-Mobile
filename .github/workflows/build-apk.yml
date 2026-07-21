@@ -24,18 +24,11 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Ontbrekende projectbestanden aanvullen
+      - name: Android-projectbestanden genereren
         run: flutter create . --platforms=android --project-name gpk_app --org nl.gpk
 
-      - name: Pakketten ophalen
-        run: flutter pub get
-
-      - name: APK bouwen (release)
-        run: flutter build apk --release
-
-      - name: APK als download beschikbaar maken
-        uses: actions/upload-artifact@v4
-        with:
-          name: GPK-Parkeren-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
+      - name: Internet-toestemming toevoegen
+        run: |
+          MANIFEST=android/app/src/main/AndroidManifest.xml
+          if ! grep -q "android.permission.INTERNET" "$MANIFEST"; then
+            sed -i 's#<manifest\(.
